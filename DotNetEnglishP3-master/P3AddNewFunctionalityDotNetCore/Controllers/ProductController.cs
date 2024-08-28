@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Localization;
 using P3AddNewFunctionalityDotNetCore.Models.Services;
 using P3AddNewFunctionalityDotNetCore.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,11 +14,13 @@ namespace P3AddNewFunctionalityDotNetCore.Controllers
     {
         private readonly IProductService _productService;
         private readonly ILanguageService _languageService;
+        private readonly IStringLocalizer<ProductController> _localizer;
 
-        public ProductController(IProductService productService, ILanguageService languageService)
+        public ProductController(IProductService productService, ILanguageService languageService, IStringLocalizer<ProductController> localizer)
         {
             _productService = productService;
             _languageService = languageService;
+            _localizer = localizer;
         }
 
         public IActionResult Index()
@@ -40,11 +45,37 @@ namespace P3AddNewFunctionalityDotNetCore.Controllers
         [HttpPost]
         public IActionResult Create(ProductViewModel product)
         {
-            List<string> modelErrors = _productService.CheckProductModelErrors(product);           
-
-            foreach (string error in modelErrors)
+            if (product.Name == null || string.IsNullOrWhiteSpace(product.Name))
             {
-                ModelState.AddModelError("", error);
+                ModelState.AddModelError(nameof(product.Name), _localizer["MissingName"]);
+            }
+
+            if (product.Price == null || string.IsNullOrWhiteSpace(product.Price))
+            {
+                ModelState.AddModelError(nameof(product.Price), _localizer["MissingPrice"]);
+            }
+            if (!decimal.TryParse(product.Price, out decimal price))
+                {
+                    ModelState.AddModelError(nameof(product.Price), _localizer["PriceNotANumber"]);
+                }
+                else if (price <= 0)
+                {
+                    ModelState.AddModelError(nameof(product.Price), _localizer["PriceNotGreaterThanZero"]);
+                }
+
+            if (product.Stock == null || string.IsNullOrWhiteSpace(product.Stock))
+            {
+                ModelState.AddModelError(nameof(product.Stock), _localizer["MissingStock"]);
+            }
+
+            if (!int.TryParse(product.Stock, out int qt))
+            {
+                ModelState.AddModelError(nameof(product.Stock), _localizer["StockNotAnInteger"]);
+            }
+            else
+            {
+                if (qt <= 0)
+                    ModelState.AddModelError(nameof(product.Stock), _localizer["StockNotGreaterThanZero"]);
             }
 
             if (ModelState.IsValid)
@@ -52,10 +83,8 @@ namespace P3AddNewFunctionalityDotNetCore.Controllers
                 _productService.SaveProduct(product);
                 return RedirectToAction("Admin");
             }
-            else
-            {
-                return View(product);
-            }
+
+            return View(product);
         }
 
         [Authorize]

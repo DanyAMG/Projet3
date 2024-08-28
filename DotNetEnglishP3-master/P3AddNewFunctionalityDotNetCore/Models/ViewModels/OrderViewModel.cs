@@ -14,7 +14,7 @@ namespace P3AddNewFunctionalityDotNetCore.Models.ViewModels
         public ICollection<CartLine> Lines { get; set; }
 
         [Required(ErrorMessage = "ErrorMissingName")]
-        [RegularExpression(@"^[a-zA-Zà-ÿÀ-Ÿ\s'-]+$", ErrorMessage = "ErrorInvalidName")]
+        [RegularExpression(@"^[a-zA-Zà-ÿÀ-Ÿ '-]+$", ErrorMessage = "ErrorInvalidName")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "ErrorMissingAdress")]

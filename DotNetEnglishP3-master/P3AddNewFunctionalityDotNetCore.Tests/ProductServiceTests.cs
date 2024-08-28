@@ -1,4 +1,7 @@
 ﻿using Xunit;
+using P3AddNewFunctionalityDotNetCore.Models.ViewModels;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace P3AddNewFunctionalityDotNetCore.Tests
 {
@@ -22,5 +25,26 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
         }
 
         // TODO write test methods to ensure a correct coverage of all possibilities
+
+
+        // This test validate that the name of the product is required by entering an empty name
+        [Fact]
+        public void Validate_Product_Name()
+        {
+            //Arrange
+            var product = new ProductViewModel
+            {
+                Name = null,
+            };
+            var validationContext = new ValidationContext(product);
+            var validationResults = new List<ValidationResult>();
+
+            //Act
+            bool isValid =Validator.TryValidateObject(product, validationContext, validationResults, true);
+
+            //Assert
+            Assert.False(isValid);
+            Assert.Contains(validationResults, vr => vr.ErrorMessage == "MissingName");
+        }
     }
 }
