@@ -28,13 +28,15 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
 
         // This test validate that the name of the product is required by entering an empty name
-        [Fact]
-        public void Validate_Product_Name()
+        [Theory]
+        [InlineData(null, "MissingName")]
+        [InlineData("", "MissingName")]
+        public void Validate_Product_Name(string inputValue, string expectedValue)
         {
             //Arrange
             var product = new ProductViewModel
             {
-                Name = null,
+                Name = inputValue,
             };
             var validationContext = new ValidationContext(product);
             var validationResults = new List<ValidationResult>();
@@ -44,7 +46,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
             //Assert
             Assert.False(isValid);
-            Assert.Contains(validationResults, vr => vr.ErrorMessage == "MissingName");
+            Assert.Contains(validationResults, vr => vr.ErrorMessage == expectedValue);
         }
     }
 }

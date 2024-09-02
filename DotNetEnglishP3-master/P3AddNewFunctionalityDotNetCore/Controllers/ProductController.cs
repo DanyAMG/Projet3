@@ -47,35 +47,35 @@ namespace P3AddNewFunctionalityDotNetCore.Controllers
         {
             if (product.Name == null || string.IsNullOrWhiteSpace(product.Name))
             {
-                ModelState.AddModelError(nameof(product.Name), _localizer["MissingName"]);
+                ModelState.AddModelError(nameof(product.Name), _localizer["MissingName"].ToString());
             }
 
             if (product.Price == null || string.IsNullOrWhiteSpace(product.Price))
             {
-                ModelState.AddModelError(nameof(product.Price), _localizer["MissingPrice"]);
+                ModelState.AddModelError(nameof(product.Price), _localizer["MissingPrice"].ToString());
             }
             if (!decimal.TryParse(product.Price, out decimal price))
                 {
-                    ModelState.AddModelError(nameof(product.Price), _localizer["PriceNotANumber"]);
+                    ModelState.AddModelError(nameof(product.Price), _localizer["PriceNotANumber"].ToString());
                 }
                 else if (price <= 0)
                 {
-                    ModelState.AddModelError(nameof(product.Price), _localizer["PriceNotGreaterThanZero"]);
+                    ModelState.AddModelError(nameof(product.Price), _localizer["PriceNotGreaterThanZero"].ToString());
                 }
 
             if (product.Stock == null || string.IsNullOrWhiteSpace(product.Stock))
             {
-                ModelState.AddModelError(nameof(product.Stock), _localizer["MissingStock"]);
+                ModelState.AddModelError(nameof(product.Stock), _localizer["MissingStock"].ToString());
             }
 
             if (!int.TryParse(product.Stock, out int qt))
             {
-                ModelState.AddModelError(nameof(product.Stock), _localizer["StockNotAnInteger"]);
+                ModelState.AddModelError(nameof(product.Stock), _localizer["StockNotAnInteger"].ToString());
             }
             else
             {
                 if (qt <= 0)
-                    ModelState.AddModelError(nameof(product.Stock), _localizer["StockNotGreaterThanZero"]);
+                    ModelState.AddModelError(nameof(product.Stock), _localizer["StockNotGreaterThanZero"].ToString());
             }
 
             if (ModelState.IsValid)

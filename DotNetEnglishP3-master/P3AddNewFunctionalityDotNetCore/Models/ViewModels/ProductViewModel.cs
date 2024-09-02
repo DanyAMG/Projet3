@@ -1,5 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Localization;
+using P3AddNewFunctionalityDotNetCore.Controllers;
 using System.ComponentModel.DataAnnotations;
+using P3AddNewFunctionalityDotNetCore.Models.ViewModels;
+
+
 
 namespace P3AddNewFunctionalityDotNetCore.Models.ViewModels
 {
@@ -17,7 +22,7 @@ namespace P3AddNewFunctionalityDotNetCore.Models.ViewModels
         public string Details { get; set; }
 
         [Required(ErrorMessage = "MissingStock")]
-        [RegularExpression(@"^\d+$", ErrorMessage = "QuantityNotAnInteger")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "StockNotAnInteger")]
         [Range(1, int.MaxValue, ErrorMessage = "StockNotGreaterThanZero")]
         public string Stock { get; set; }
 
