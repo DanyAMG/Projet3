@@ -94,6 +94,8 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
         [Theory]
         [InlineData("not a number", "PriceNotANumber")]
         [InlineData("10.99", "PriceNotANumber")]
+        [InlineData("100", "PriceNotANumber")]
+        [InlineData("10,1", "PriceNotANumber")]
         public void Validate_Product_Price_Is_A_Number(string inputValue, string expectedValue)
         {
             //Arrange
@@ -114,7 +116,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
         [Theory]
         [InlineData("not a number", "PriceNotAnInteger")]
-        [InlineData("10.99", "PriceNotAnInteger")]
+        [InlineData("10.99", "StockNotAnInteger")]
         [InlineData("10,99", "StockNotAnInteger")]
         public void Validate_Product_Stock_Is_An_Integer(string inputValue, string expectedValue)
         {

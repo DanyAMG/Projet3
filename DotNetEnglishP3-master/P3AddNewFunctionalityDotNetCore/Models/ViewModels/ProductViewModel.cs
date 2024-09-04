@@ -24,6 +24,7 @@ namespace P3AddNewFunctionalityDotNetCore.Models.ViewModels
         public string Stock { get; set; }
 
         [Required(ErrorMessage ="MissingPrice")]
+        [RegularExpression(@"^\d+\,\d{2}$", ErrorMessage = "PriceNotAnNumber")]
         [GreaterThanZero(ErrorMessage = "PriceNotGreaterThanZero")]
         public string Price { get; set; }
     }
