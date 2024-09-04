@@ -27,11 +27,11 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
         // TODO write test methods to ensure a correct coverage of all possibilities
 
 
-        // This test validate that the name of the product is required by entering an empty name
+        // This test validate that the name of the product is required by entering an empty name or a null value in the field
         [Theory]
         [InlineData(null, "MissingName")]
         [InlineData("", "MissingName")]
-        public void Validate_Product_Name(string inputValue, string expectedValue)
+        public void Validate_Product_Name_Is_Not_Null_Or_Empty(string inputValue, string expectedValue)
         {
             //Arrange
             var product = new ProductViewModel
@@ -42,7 +42,134 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
             var validationResults = new List<ValidationResult>();
 
             //Act
-            bool isValid =Validator.TryValidateObject(product, validationContext, validationResults, true);
+            bool isValid = Validator.TryValidateObject(product, validationContext, validationResults, true);
+
+            //Assert
+            Assert.False(isValid);
+            Assert.Contains(validationResults, vr => vr.ErrorMessage == expectedValue);
+        }
+
+        [Theory]
+        [InlineData(null, "MissingPrice")]
+        [InlineData("", "MissingPrice")]
+        public void Validate_Product_Price_Is_Not_Null_Or_Empty(string inputValue, string expectedValue)
+        {
+            //Arrange
+            var product = new ProductViewModel
+            {
+                Price = inputValue,
+            };
+            var validationContext = new ValidationContext(product);
+            var validationResults = new List<ValidationResult>();
+
+            //Act
+            bool isValid = Validator.TryValidateObject(product, validationContext, validationResults, true);
+
+            //Assert
+            Assert.False(isValid);
+            Assert.Contains(validationResults, vr => vr.ErrorMessage == expectedValue);
+        }
+
+        [Theory]
+        [InlineData(null, "MissingStock")]
+        [InlineData("", "MissingStock")]
+        public void Validate_Product_Stock_Is_Not_Null_Or_Empty(string inputValue, string expectedValue)
+        {
+            //Arrange
+            var product = new ProductViewModel
+            {
+                Stock = inputValue,
+            };
+            var validationContext = new ValidationContext(product);
+            var validationResults = new List<ValidationResult>();
+
+            //Act
+            bool isValid = Validator.TryValidateObject(product, validationContext, validationResults, true);
+
+            //Assert
+            Assert.False(isValid);
+            Assert.Contains(validationResults, vr => vr.ErrorMessage == expectedValue);
+        }
+
+        [Theory]
+        [InlineData("not a number", "PriceNotANumber")]
+        [InlineData("10.99", "PriceNotANumber")]
+        public void Validate_Product_Price_Is_A_Number(string inputValue, string expectedValue)
+        {
+            //Arrange
+            var product = new ProductViewModel
+            {
+                Price = inputValue,
+            };
+            var validationContext = new ValidationContext(product);
+            var validationResults = new List<ValidationResult>();
+
+            //Act
+            bool isValid = Validator.TryValidateObject(product, validationContext, validationResults, true);
+
+            //Assert
+            Assert.False(isValid);
+            Assert.Contains(validationResults, vr => vr.ErrorMessage == expectedValue);
+        }
+
+        [Theory]
+        [InlineData("not a number", "PriceNotAnInteger")]
+        [InlineData("10.99", "PriceNotAnInteger")]
+        [InlineData("10,99", "StockNotAnInteger")]
+        public void Validate_Product_Stock_Is_An_Integer(string inputValue, string expectedValue)
+        {
+            //Arrange
+            var product = new ProductViewModel
+            {
+                Stock = inputValue,
+            };
+            var validationContext = new ValidationContext(product);
+            var validationResults = new List<ValidationResult>();
+
+            //Act
+            bool isValid = Validator.TryValidateObject(product, validationContext, validationResults, true);
+
+            //Assert
+            Assert.False(isValid);
+            Assert.Contains(validationResults, vr => vr.ErrorMessage == expectedValue);
+        }
+
+        [Theory]
+        [InlineData("0", "PriceNotGreaterThanZero")]
+        [InlineData("-1", "PriceNotGreaterThanZero")]
+        public void Validate_Product_Price_Is_Greater_Than_Zero(string inputValue, string expectedValue)
+        {
+            //Arrange
+            var product = new ProductViewModel
+            {
+                Price = inputValue,
+            };
+            var validationContext = new ValidationContext(product);
+            var validationResults = new List<ValidationResult>();
+
+            //Act
+            bool isValid = Validator.TryValidateObject(product, validationContext, validationResults, true);
+
+            //Assert
+            Assert.False(isValid);
+            Assert.Contains(validationResults, vr => vr.ErrorMessage == expectedValue);
+        }
+
+        [Theory]
+        [InlineData("0", "StockNotGreaterThanZero")]
+        [InlineData("-1", "StockNotGreaterThanZero")]
+        public void Validate_Product_Stock_Is_Greater_Than_Zero(string inputValue, string expectedValue)
+        {
+            //Arrange
+            var product = new ProductViewModel
+            {
+                Price = inputValue,
+            };
+            var validationContext = new ValidationContext(product);
+            var validationResults = new List<ValidationResult>();
+
+            //Act
+            bool isValid = Validator.TryValidateObject(product, validationContext, validationResults, true);
 
             //Assert
             Assert.False(isValid);
