@@ -81,12 +81,13 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
         public ProductServiceReflectClientsIntegrationTest()
         {
-            // Initialisation des mocks
+            // Mocks initialization
             _mockProductRepository = new Mock<IProductRepository>();
             _mockCart = new Mock<ICart>();
             _mockOrderRepository = new Mock<IOrderRepository>();
 
             // Initialise ProductService avec des mocks
+            // Initialize ProductService with mocks
             _productService = new ProductService(_mockCart.Object, _mockProductRepository.Object, _mockOrderRepository.Object, null);
         }
 
@@ -102,15 +103,18 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
                 Stock = "10"
             };
 
-            // Simule l'ajout d'un produit dans le dépôt
+            
+            // Simulate the product Creation in the repo
             var productList = new List<Product>();
             _mockProductRepository.Setup(repo => repo.GetAllProducts()).Returns(productList);
             _mockProductRepository.Setup(repo => repo.SaveProduct(It.IsAny<Product>())).Callback<Product>(p => productList.Add(p));
 
-            // Act: L'administrateur ajoute un nouveau produit
+            // Act:
+            //The administrator add a new product
             _productService.SaveProduct(newProduct);
 
-            // Vérification : Récupérer la liste des produits disponibles pour le client
+           
+            // Take the product list available for the client
             var allProducts = _productService.GetAllProducts();
 
             // Assert
