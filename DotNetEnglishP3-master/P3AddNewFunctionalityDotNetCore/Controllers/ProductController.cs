@@ -45,46 +45,8 @@ namespace P3AddNewFunctionalityDotNetCore.Controllers
         [HttpPost]
         public IActionResult Create(ProductViewModel product)
         {
-            //if (product.Name == null || string.IsNullOrWhiteSpace(product.Name))
-            //{
-            //    ModelState.AddModelError(nameof(product.Name), _localizer["MissingName1"].ToString());
-            //}
-
-            //if (product.Price == null || string.IsNullOrWhiteSpace(product.Price))
-            //{
-            //    ModelState.AddModelError(nameof(product.Price), _localizer["MissingPrice1"].ToString());
-            //}
-            //if (!decimal.TryParse(product.Price, out decimal price))
-            //    {
-            //        ModelState.AddModelError(nameof(product.Price), _localizer["PriceNotANumber1"].ToString());
-            //    }
-            //    else if (price <= 0)
-            //    {
-            //        ModelState.AddModelError(nameof(product.Price), _localizer["PriceNotGreaterThanZero1"].ToString());
-            //    }
-
-            //if (product.Stock == null || string.IsNullOrWhiteSpace(product.Stock))
-            //{
-            //    ModelState.AddModelError(nameof(product.Stock), _localizer["MissingStock1"].ToString());
-            //}
-
-            //if (!int.TryParse(product.Stock, out int qt))
-            //{
-            //    ModelState.AddModelError(nameof(product.Stock), _localizer["StockNotAnInteger1"].ToString());
-            //}
-            //else
-            //{
-            //    if (qt <= 0)
-            //        ModelState.AddModelError(nameof(product.Stock), _localizer["StockNotGreaterThanZero1"].ToString());
-            //}
-
-            //if (ModelState.IsValid)
-            //{
                 _productService.SaveProduct(product);
                 return RedirectToAction("Admin");
-            //}
-
-            //return View(product);
         }
 
         [Authorize]
