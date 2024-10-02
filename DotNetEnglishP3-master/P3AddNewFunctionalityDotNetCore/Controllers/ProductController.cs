@@ -45,46 +45,8 @@ namespace P3AddNewFunctionalityDotNetCore.Controllers
         [HttpPost]
         public IActionResult Create(ProductViewModel product)
         {
-            if (product.Name == null || string.IsNullOrWhiteSpace(product.Name))
-            {
-                ModelState.AddModelError(nameof(product.Name), _localizer["MissingName"]);
-            }
-
-            if (product.Price == null || string.IsNullOrWhiteSpace(product.Price))
-            {
-                ModelState.AddModelError(nameof(product.Price), _localizer["MissingPrice"]);
-            }
-            if (!decimal.TryParse(product.Price, out decimal price))
-                {
-                    ModelState.AddModelError(nameof(product.Price), _localizer["PriceNotANumber"]);
-                }
-                else if (price <= 0)
-                {
-                    ModelState.AddModelError(nameof(product.Price), _localizer["PriceNotGreaterThanZero"]);
-                }
-
-            if (product.Stock == null || string.IsNullOrWhiteSpace(product.Stock))
-            {
-                ModelState.AddModelError(nameof(product.Stock), _localizer["MissingStock"]);
-            }
-
-            if (!int.TryParse(product.Stock, out int qt))
-            {
-                ModelState.AddModelError(nameof(product.Stock), _localizer["StockNotAnInteger"]);
-            }
-            else
-            {
-                if (qt <= 0)
-                    ModelState.AddModelError(nameof(product.Stock), _localizer["StockNotGreaterThanZero"]);
-            }
-
-            if (ModelState.IsValid)
-            {
                 _productService.SaveProduct(product);
                 return RedirectToAction("Admin");
-            }
-
-            return View(product);
         }
 
         [Authorize]

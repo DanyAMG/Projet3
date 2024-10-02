@@ -109,11 +109,50 @@ namespace P3AddNewFunctionalityDotNetCore.Models.Services
             return productEntity;
         }
 
+        public List<string> CheckProductModelErrors(ProductViewModel product)
+        {
+            List<string> modelErrors = new List<string>();
+            if (product.Name == null || string.IsNullOrWhiteSpace(product.Name))
+            {
+                modelErrors.Add(_localizer["MissingName"]);
+            }
+
+            if (product.Price == null || string.IsNullOrWhiteSpace(product.Price))
+            {
+                modelErrors.Add(_localizer["MissingPrice"]);
+            }
+
+            if (!Double.TryParse(product.Price, out double pc))
+            {
+                modelErrors.Add(_localizer["PriceNotANumber"]);
+            }
+            else
+            {
+                if (pc <= 0)
+                    modelErrors.Add(_localizer["PriceNotGreaterThanZero"]);
+            }
+
+            if (product.Stock == null || string.IsNullOrWhiteSpace(product.Stock))
+            {
+                modelErrors.Add(_localizer["MissingQuantity"]);
+            }
+
+            if (!int.TryParse(product.Stock, out int qt))
+            {
+                modelErrors.Add(_localizer["StockNotAnInteger"]);
+            }
+            else
+            {
+                if (qt <= 0)
+                    modelErrors.Add(_localizer["StockNotGreaterThanZero"]);
+            }
+
+            return modelErrors;
+        }
+
         public void DeleteProduct(int id)
         {
-            // TODO what happens if a product has been added to a cart and has been later removed from the inventory ?
-            // delete the product form the cart by using the specific method
-            // => the choice is up to the student
+            //When this method is used it delete the product everywhere in the list and in the cart if the product was added in
             
 
             _cart.RemoveLine(GetProductById(id));

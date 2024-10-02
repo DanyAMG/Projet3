@@ -56,14 +56,18 @@
 
   <ItemGroup>
     <Folder Include="Resources\Models\Services\" />
+    <Folder Include="Resources\Models\ViewModels\Product\" />
+    <Folder Include="Resources\ViewModels\Product\" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\Controllers\ProductController.en.resx">
+    <EmbeddedResource Update="Resources\Models\ViewModels\ProductViewModel.en.resx">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <Generator></Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Controllers\ProductController.fr.resx">
+    <EmbeddedResource Update="Resources\Models\ViewModels\ProductViewModel.fr.resx">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <Generator></Generator>
     </EmbeddedResource>
   </ItemGroup>
 
