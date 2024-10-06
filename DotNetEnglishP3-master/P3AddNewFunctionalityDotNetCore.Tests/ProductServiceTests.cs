@@ -19,7 +19,7 @@ namespace P3AddNewFunctionalityDotNetCore.Tests
 
         public ProductServiceTests()
         {
-            // Setup des mocks pour le localizer, cart, et repositories
+            // Setup the mock to simulate the localizer, cart and repo
             _mockLocalizer = new Mock<IStringLocalizer<ProductService>>();
             _mockCart = new Mock<ICart>();
             _mockProductRepository = new Mock<IProductRepository>();
