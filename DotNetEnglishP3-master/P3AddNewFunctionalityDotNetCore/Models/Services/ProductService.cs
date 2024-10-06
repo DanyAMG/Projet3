@@ -153,11 +153,15 @@ namespace P3AddNewFunctionalityDotNetCore.Models.Services
         public void DeleteProduct(int id)
         {
             //When this method is used it delete the product everywhere in the list and in the cart if the product was added in
-            
-
-            _cart.RemoveLine(GetProductById(id));
-
-            _productRepository.DeleteProduct(id);
+            var product = _productRepository.GetProduct(id).Result;
+            if (product != null)
+            {
+                _productRepository.DeleteProduct(id);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Le produit avec l'ID {id} n'existe pas.");
+            }
         }
     }
 }
